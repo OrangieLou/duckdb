@@ -194,9 +194,6 @@ void SingleFileBlockManager::CreateNewDatabase() {
 	memset(main_file_header.flags, 0, sizeof(uint64_t) * 4);
 
 	if (options.NeedsEncryption()) {
-		if (!AESGCMState::ValidKey(options.encryption_key)) {
-			throw IOException("Invalid encryption key, need string of length 16, 24, 32");
-		}
 		main_file_header.flags[0] = MainHeader::ENCRYPTED_DATABASE_FLAG;
 		// we generate and store a random initialization vector (IV) for AES
 		duckdb_mbedtls::MbedTlsWrapper::GenerateRandomData(main_file_header.aes_encryption_iv, MainHeader::AES_IV_LEN);
@@ -327,9 +324,6 @@ void SingleFileBlockManager::ChecksumAndWrite(FileBuffer &block, uint64_t locati
 
 	// encrypt if required
 	if (options.NeedsEncryption() && !skip_encryption) {
-		if (!AESGCMState::ValidKey(options.encryption_key)) {
-			throw IOException("Invalid encryption key, need string of length 16, 24, 32");
-		}
 		auto aes = CreateAesState(options.encryption_key);
 		aes.InitializeEncryption(main_file_header.aes_encryption_iv, MainHeader::AES_IV_LEN);
 
