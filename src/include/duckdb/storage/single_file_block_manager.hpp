@@ -26,6 +26,11 @@ struct StorageManagerOptions {
 	bool read_only = false;
 	bool use_direct_io = false;
 	DebugInitialize debug_initialize = DebugInitialize::NO_INITIALIZE;
+	string encryption_key = "xxxxxxxxxxxxxxxx";
+
+	bool NeedsEncryption() const {
+		return !encryption_key.empty();
+	}
 };
 
 //! SingleFileBlockManager is an implementation for a BlockManager which manages blocks in a single file
@@ -75,8 +80,8 @@ private:
 
 	void Initialize(DatabaseHeader &header);
 
-	void ReadAndChecksum(FileBuffer &handle, uint64_t location) const;
-	void ChecksumAndWrite(FileBuffer &handle, uint64_t location) const;
+	void ReadAndChecksum(FileBuffer &handle, uint64_t location, bool skip_encryption = false) const;
+	void ChecksumAndWrite(FileBuffer &handle, uint64_t location, bool skip_encryption = false) const;
 
 	//! Return the blocks to which we will write the free list and modified blocks
 	vector<MetadataHandle> GetFreeListBlocks();
@@ -84,6 +89,8 @@ private:
 
 private:
 	AttachedDatabase &db;
+	//! The main database header struct
+	MainHeader main_file_header;
 	//! The active DatabaseHeader, either 0 (h1) or 1 (h2)
 	uint8_t active_header;
 	//! The path where the file is stored

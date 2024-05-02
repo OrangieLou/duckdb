@@ -140,6 +140,7 @@ void SingleFileStorageManager::LoadDatabase(optional_ptr<ClientContext> context)
 	options.read_only = read_only;
 	options.use_direct_io = config.options.use_direct_io;
 	options.debug_initialize = config.options.debug_initialize;
+	options.encryption_key = config.options.encryption_key;
 
 	// first check if the database exists
 	if (!read_only && !fs.FileExists(path)) {

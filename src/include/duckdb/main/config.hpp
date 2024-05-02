@@ -199,6 +199,8 @@ struct DBConfigOptions {
 	string custom_user_agent;
 	//! Use old implicit casting style (i.e. allow everything to be implicitly casted to VARCHAR)
 	bool old_implicit_casting = false;
+	//! Database encryption key
+	string encryption_key ;
 
 	bool operator==(const DBConfigOptions &other) const;
 };
