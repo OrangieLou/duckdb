@@ -26,7 +26,7 @@ struct StorageManagerOptions {
 	bool read_only = false;
 	bool use_direct_io = false;
 	DebugInitialize debug_initialize = DebugInitialize::NO_INITIALIZE;
-	string encryption_key = "xxxxxxxxxxxxxxxx";
+	string encryption_key;
 
 	bool NeedsEncryption() const {
 		return !encryption_key.empty();
