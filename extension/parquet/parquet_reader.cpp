@@ -215,8 +215,8 @@ LogicalType ParquetReader::DeriveLogicalType(const SchemaElement &s_ele, bool bi
 				throw IOException("TIMESTAMP converted type can only be set for value of Type::INT64");
 			}
 		case ConvertedType::DECIMAL:
-			if (!s_ele.__isset.precision || !s_ele.__isset.scale) {
-				throw IOException("DECIMAL requires a length and scale specifier!");
+			if (!s_ele.__isset.precision || !s_ele.__isset.scale || s_ele.precision < 0 || s_ele.scale < 0) {
+				throw IOException("DECIMAL requires a positive length and scale specifier!");
 			}
 			if (s_ele.precision > DecimalType::MaxWidth()) {
 				return LogicalType::DOUBLE;
@@ -226,6 +226,10 @@ LogicalType ParquetReader::DeriveLogicalType(const SchemaElement &s_ele, bool bi
 			case Type::FIXED_LEN_BYTE_ARRAY:
 			case Type::INT32:
 			case Type::INT64:
+				if (s_ele.precision > DecimalType::MaxWidth()) {
+					throw IOException("DECIMAL type width %d larger than maximum %llu", s_ele.precision,
+					                  DecimalType::MaxWidth());
+				}
 				return LogicalType::DECIMAL(s_ele.precision, s_ele.scale);
 			default:
 				throw IOException(
@@ -301,8 +305,11 @@ unique_ptr<ColumnReader> ParquetReader::CreateReaderRecursive(ClientContext &con
                                                               idx_t &next_schema_idx, idx_t &next_file_idx) {
 	auto file_meta_data = GetFileMetadata();
 	D_ASSERT(file_meta_data);
-	D_ASSERT(next_schema_idx < file_meta_data->schema.size());
+	if (next_schema_idx >= file_meta_data->schema.size()) {
+		throw IOException("Invalid schema offset");
+	}
 	auto &s_ele = file_meta_data->schema[next_schema_idx];
+
 	auto this_idx = next_schema_idx;
 
 	auto repetition_type = FieldRepetitionType::REQUIRED;
@@ -338,7 +345,9 @@ unique_ptr<ColumnReader> ParquetReader::CreateReaderRecursive(ClientContext &con
 		idx_t c_idx = 0;
 		while (c_idx < (idx_t)s_ele.num_children) {
 			next_schema_idx++;
-
+			if (next_schema_idx >= file_meta_data->schema.size()) {
+				throw IOException("Invalid schema offset");
+			}
 			auto &child_ele = file_meta_data->schema[next_schema_idx];
 
 			// figure out which child columns we should read of this child column
@@ -450,17 +459,19 @@ unique_ptr<ColumnReader> ParquetReader::CreateReader(ClientContext &context) {
 	idx_t next_file_idx = 0;
 
 	if (file_meta_data->schema.empty()) {
-		throw IOException("Parquet reader: no schema elements found");
+		throw InvalidInputException("Invalid Parquet schema: No entries in file %s", GetFileName());
 	}
 	if (file_meta_data->schema[0].num_children == 0) {
-		throw IOException("Parquet reader: root schema element has no children");
+		throw InvalidInputException("Root element of Parquet file %s has no children", GetFileName());
 	}
 	auto ret = CreateReaderRecursive(context, reader_data.column_indexes, 0, 0, 0, next_schema_idx, next_file_idx);
 	if (ret->Type().id() != LogicalTypeId::STRUCT) {
-		throw InvalidInputException("Root element of Parquet file must be a struct");
+		throw InvalidInputException("Root element of Parquet file %s must be a struct", GetFileName());
 	}
 	D_ASSERT(next_schema_idx == file_meta_data->schema.size() - 1);
-	D_ASSERT(file_meta_data->row_groups.empty() || next_file_idx == file_meta_data->row_groups[0].columns.size());
+	if (!file_meta_data->row_groups.empty() && next_file_idx != file_meta_data->row_groups[0].columns.size()) {
+		throw InvalidInputException("Inconsistent Parquet metadata in %s", GetFileName());
+	}
 
 	auto &root_struct_reader = ret->Cast<StructColumnReader>();
 	// add casts if required

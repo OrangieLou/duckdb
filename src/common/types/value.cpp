@@ -587,9 +587,15 @@ Value Value::DECIMAL(int64_t value, uint8_t width, uint8_t scale) {
 	Value result(decimal_type);
 	switch (decimal_type.InternalType()) {
 	case PhysicalType::INT16:
+		if (value < NumericLimits<int16_t>::Minimum() || value > NumericLimits<int16_t>::Maximum()) {
+			throw InvalidInputException("Value %lld is out of range for type int16", value);
+		}
 		result.value_.smallint = NumericCast<int16_t>(value);
 		break;
 	case PhysicalType::INT32:
+		if (value < NumericLimits<int32_t>::Minimum() || value > NumericLimits<int32_t>::Maximum()) {
+			throw InvalidInputException("Value %lld is out of range for type int32_t", value);
+		}
 		result.value_.integer = NumericCast<int32_t>(value);
 		break;
 	case PhysicalType::INT64:

@@ -893,7 +893,6 @@ idx_t ListColumnReader::Read(uint64_t num_values, parquet_filter_t &filter, data
 			// no more elements available: we are done
 			break;
 		}
-		read_vector.Verify(child_actual_num_values);
 		idx_t current_chunk_offset = ListVector::GetListSize(result_out);
 
 		// hard-won piece of code this, modify at your own risk
@@ -903,7 +902,9 @@ idx_t ListColumnReader::Read(uint64_t num_values, parquet_filter_t &filter, data
 		for (child_idx = 0; child_idx < child_actual_num_values; child_idx++) {
 			if (child_repeats_ptr[child_idx] == max_repeat) {
 				// value repeats on this level, append
-				D_ASSERT(result_offset > 0);
+				if (result_offset < 1) {
+					throw InvalidInputException("Corrupted Parquet file %s", reader.GetFileName());
+				}
 				result_ptr[result_offset - 1].length++;
 				continue;
 			}
@@ -941,7 +942,6 @@ idx_t ListColumnReader::Read(uint64_t num_values, parquet_filter_t &filter, data
 		if (child_idx < child_actual_num_values && result_offset == num_values) {
 			read_vector.Slice(read_vector, child_idx, child_actual_num_values);
 			overflow_child_count = child_actual_num_values - child_idx;
-			read_vector.Verify(overflow_child_count);
 
 			// move values in the child repeats and defines *backward* by child_idx
 			for (idx_t repdef_idx = 0; repdef_idx < overflow_child_count; repdef_idx++) {
@@ -950,7 +950,6 @@ idx_t ListColumnReader::Read(uint64_t num_values, parquet_filter_t &filter, data
 			}
 		}
 	}
-	result_out.Verify(result_offset);
 	return result_offset;
 }
 
@@ -1204,22 +1203,23 @@ idx_t StructColumnReader::Read(uint64_t num_values, parquet_filter_t &filter, da
                                data_ptr_t repeat_out, Vector &result) {
 	auto &struct_entries = StructVector::GetEntries(result);
 	D_ASSERT(StructType::GetChildTypes(Type()).size() == struct_entries.size());
+	D_ASSERT(child_readers.size() == struct_entries.size());
 
 	if (pending_skips > 0) {
 		ApplyPendingSkips(pending_skips);
 	}
 
 	optional_idx read_count;
-	for (idx_t i = 0; i < child_readers.size(); i++) {
-		auto &child = child_readers[i];
-		auto &target_vector = *struct_entries[i];
-		if (!child) {
+	for (idx_t child_idx = 0; child_idx < struct_entries.size(); child_idx++) {
+		auto &target_vector = *struct_entries[child_idx];
+		auto &child_reader = child_readers[child_idx];
+		if (!child_reader) {
 			// if we are not scanning this vector - set it to NULL
 			target_vector.SetVectorType(VectorType::CONSTANT_VECTOR);
 			ConstantVector::SetNull(target_vector, true);
 			continue;
 		}
-		auto child_num_values = child->Read(num_values, filter, define_out, repeat_out, target_vector);
+		auto child_num_values = child_reader->Read(num_values, filter, define_out, repeat_out, target_vector);
 		if (!read_count.IsValid()) {
 			read_count = child_num_values;
 		} else if (read_count.GetIndex() != child_num_values) {
@@ -1229,11 +1229,10 @@ idx_t StructColumnReader::Read(uint64_t num_values, parquet_filter_t &filter, da
 	if (!read_count.IsValid()) {
 		read_count = num_values;
 	}
-	// set the validity mask for this level
-	auto &validity = FlatVector::Validity(result);
-	for (idx_t i = 0; i < read_count.GetIndex(); i++) {
-		if (define_out[i] < max_define) {
-			validity.SetInvalid(i);
+	// set the validity mask for this level, also fix any inconsistencies with NULL in children
+	for (idx_t row_idx = 0; row_idx < read_count.GetIndex(); row_idx++) {
+		if (define_out[row_idx] < max_define) {
+			FlatVector::Validity(result).SetInvalid(row_idx);
 		}
 	}
 
