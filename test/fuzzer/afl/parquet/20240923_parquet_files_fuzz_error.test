@@ -1,0 +1,505 @@
+# name: test/fuzzer/afl/parquet/20240923_parquet_files_fuzz_error.test
+# description: test fuzzer generated parquet files - should not raise internal exception (by failed assertion).
+# group: [parquet]
+
+require parquet
+
+
+
+query I
+select count(file) from glob('./data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/*');
+----
+123
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000000,sig:06,src:000135+000080,time:3032,execs:2737,op:splice,rep:3');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000001,sig:06,src:000135+000080,time:4203,execs:2949,op:splice,rep:3');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000002,sig:11,src:000135+000080,time:15363,execs:5031,op:splice,rep:3');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000003,sig:06,src:000140,time:26462,execs:7235,op:flip1,pos:60');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000004,sig:06,src:000140,time:26478,execs:7239,op:flip1,pos:60');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000005,sig:06,src:000140,time:119436,execs:28777,op:havoc,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000006,sig:06,src:000140,time:161028,execs:38752,op:havoc,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000007,sig:06,src:000140,time:206324,execs:49533,op:havoc,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000008,sig:06,src:000103,time:294446,execs:70299,op:havoc,rep:9');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000009,sig:06,src:000103,time:487173,execs:116114,op:havoc,rep:5');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000010,sig:06,src:000088,time:506498,execs:120489,op:havoc,rep:5');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000011,sig:06,src:000088,time:524528,execs:124635,op:havoc,rep:1');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000012,sig:06,src:000088,time:538843,execs:127963,op:havoc,rep:5');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000013,sig:11,src:000088,time:542564,execs:128808,op:havoc,rep:3');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000014,sig:11,src:000088,time:548596,execs:130211,op:havoc,rep:7');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000015,sig:11,src:000165,time:571242,execs:135342,op:havoc,rep:1');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000016,sig:06,src:000165,time:580194,execs:137388,op:havoc,rep:1');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000017,sig:06,src:000165,time:604856,execs:143065,op:havoc,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000018,sig:11,src:000165,time:615739,execs:145580,op:havoc,rep:3');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000019,sig:06,src:000165,time:625394,execs:147860,op:havoc,rep:3');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000020,sig:06,src:000614,time:804834,execs:166047,op:havoc,rep:1');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000021,sig:06,src:000532,time:807979,execs:166768,op:havoc,rep:1');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000022,sig:06,src:000100,time:821013,execs:169675,op:havoc,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000023,sig:06,src:000100,time:823326,execs:170183,op:havoc,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000024,sig:06,src:000100,time:834591,execs:172707,op:havoc,rep:4');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000025,sig:06,src:000100,time:852665,execs:176805,op:havoc,rep:3');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000026,sig:06,src:000145,time:885697,execs:184179,op:havoc,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000027,sig:06,src:000145,time:899698,execs:187229,op:havoc,rep:4');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000028,sig:06,src:000085,time:965087,execs:201757,op:quick,pos:1225,val:+2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000029,sig:06,src:000085,time:965837,execs:201924,op:quick,pos:1380,val:+2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000030,sig:06,src:000085,time:975030,execs:203824,op:flip1,pos:893');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000031,sig:06,src:000085,time:976653,execs:204155,op:flip2,pos:924');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000032,sig:06,src:000064,time:1024089,execs:214777,op:havoc,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000033,sig:06,src:000064,time:1046903,execs:220008,op:havoc,rep:3');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000034,sig:11,src:000064,time:1048664,execs:220424,op:havoc,rep:3');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000035,sig:06,src:000740,time:1121586,execs:235417,op:havoc,rep:7');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000036,sig:11,src:000808,time:1128465,execs:236976,op:havoc,rep:1');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000037,sig:06,src:000035,time:1141157,execs:239821,op:havoc,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000038,sig:11,src:000035,time:1155083,execs:243018,op:havoc,rep:1');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000039,sig:11,src:000035,time:1159699,execs:244066,op:havoc,rep:3');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000040,sig:06,src:000090,time:1203224,execs:254203,op:havoc,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000041,sig:06,src:000090,time:1203264,execs:254213,op:havoc,rep:1');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000042,sig:06,src:000090,time:1203406,execs:254242,op:havoc,rep:1');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000043,sig:11,src:000090,time:1205063,execs:254597,op:havoc,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000044,sig:11,src:000090,time:1205634,execs:254717,op:havoc,rep:1');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000045,sig:06,src:000090,time:1206966,execs:255021,op:havoc,rep:1');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000046,sig:11,src:000090,time:1208460,execs:255343,op:havoc,rep:1');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000047,sig:06,src:000090,time:1210622,execs:255833,op:havoc,rep:1');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000048,sig:11,src:000090,time:1213714,execs:256548,op:havoc,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000049,sig:06,src:000090,time:1216911,execs:257286,op:havoc,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000050,sig:11,src:000090,time:1233420,execs:261144,op:havoc,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000051,sig:06,src:000090,time:1238895,execs:262448,op:havoc,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000052,sig:06,src:000090,time:1240847,execs:262904,op:havoc,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000053,sig:06,src:000090,time:1240961,execs:262931,op:havoc,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000054,sig:11,src:000090,time:1241535,execs:263066,op:havoc,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000055,sig:06,src:000090,time:1251530,execs:265405,op:havoc,rep:1');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000056,sig:06,src:000180,time:1296967,execs:274089,op:havoc,rep:13');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000057,sig:06,src:000180,time:1300834,execs:274986,op:havoc,rep:5');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000058,sig:06,src:000180,time:1302331,execs:275347,op:havoc,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000059,sig:06,src:000180,time:1332457,execs:282653,op:havoc,rep:4');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000060,sig:11,src:001305,time:1353778,execs:287748,op:havoc,rep:1');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000061,sig:06,src:000168,time:1365488,execs:290377,op:havoc,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000062,sig:06,src:000168,time:1367574,execs:290868,op:havoc,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000063,sig:07,src:000168,time:1370239,execs:291489,op:havoc,rep:3');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000064,sig:11,src:000168,time:1402708,execs:299334,op:havoc,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000065,sig:11,src:000168,time:1413316,execs:301936,op:havoc,rep:1');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000066,sig:06,src:000107,time:1478355,execs:315281,op:havoc,rep:14');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000067,sig:06,src:000141,time:1618860,execs:345234,op:havoc,rep:5');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000068,sig:11,src:000141,time:1622025,execs:345989,op:havoc,rep:1');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000069,sig:11,src:000141,time:1630784,execs:348038,op:havoc,rep:4');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000070,sig:11,src:000141,time:1636463,execs:349403,op:havoc,rep:4');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000071,sig:11,src:000141,time:1640314,execs:350320,op:havoc,rep:3');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000072,sig:06,src:000141,time:1644022,execs:351220,op:havoc,rep:6');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000073,sig:06,src:000141,time:1656986,execs:354289,op:havoc,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000074,sig:06,src:001485,time:1677493,execs:359019,op:havoc,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000075,sig:06,src:000063,time:1690218,execs:361928,op:havoc,rep:11');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000076,sig:11,src:000063,time:1723075,execs:369607,op:havoc,rep:6');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000077,sig:06,src:001464,time:1785114,execs:383861,op:havoc,rep:1');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000078,sig:06,src:001388,time:1795763,execs:386250,op:havoc,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000079,sig:06,src:000065,time:1813965,execs:390249,op:havoc,rep:1');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000080,sig:06,src:000029,time:2005180,execs:432257,op:havoc,rep:1');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000081,sig:06,src:000029,time:2016713,execs:434916,op:havoc,rep:6');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000082,sig:06,src:000104,time:2080190,execs:449695,op:havoc,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000083,sig:11,src:000172,time:2183532,execs:472383,op:havoc,rep:4');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000084,sig:11,src:000172,time:2183981,execs:472461,op:havoc,rep:1');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000085,sig:11,src:000172,time:2188398,execs:473267,op:havoc,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000086,sig:11,src:000172,time:2197315,execs:474971,op:havoc,rep:4');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000087,sig:11,src:000172,time:2210872,execs:477577,op:havoc,rep:1');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000088,sig:11,src:000172,time:2213758,execs:478141,op:havoc,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000089,sig:11,src:000172,time:2228639,execs:481021,op:havoc,rep:1');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000090,sig:11,src:001910,time:2267596,execs:488390,op:inf,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000091,sig:11,src:001910,time:2267835,execs:488424,op:inf,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000092,sig:11,src:001910,time:2268550,execs:488535,op:inf,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000093,sig:11,src:000153,time:2649672,execs:556931,op:havoc,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000094,sig:11,src:000153,time:2669669,execs:560884,op:havoc,rep:1');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000095,sig:11,src:000003,time:2835478,execs:594272,op:havoc,rep:10');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000096,sig:06,src:000003,time:2836011,execs:594389,op:havoc,rep:3');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000097,sig:06,src:000003,time:2839780,execs:595173,op:havoc,rep:5');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000098,sig:06,src:000179,time:2895566,execs:607361,op:havoc,rep:5');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000099,sig:06,src:000179,time:2899479,execs:608279,op:havoc,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000100,sig:11,src:000179,time:2938909,execs:617676,op:havoc,rep:5');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000101,sig:06,src:000178,time:2953162,execs:620847,op:havoc,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000102,sig:06,src:000178,time:2963468,execs:623219,op:havoc,rep:1');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000103,sig:06,src:000178,time:2964919,execs:623558,op:havoc,rep:1');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000104,sig:06,src:000178,time:2986485,execs:628505,op:havoc,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000105,sig:06,src:000178,time:2996383,execs:630676,op:havoc,rep:1');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000106,sig:11,src:000012,time:3060069,execs:644117,op:havoc,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000107,sig:11,src:000012,time:3062903,execs:644647,op:havoc,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000108,sig:11,src:000012,time:3074552,execs:646811,op:havoc,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000109,sig:06,src:000012,time:3111976,execs:653594,op:havoc,rep:1');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000110,sig:11,src:002117,time:3145394,execs:660136,op:havoc,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000111,sig:06,src:001151,time:3191259,execs:669820,op:havoc,rep:6');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000112,sig:06,src:000071,time:3253389,execs:682503,op:havoc,rep:1');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000113,sig:11,src:000071,time:3261916,execs:683761,op:havoc,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000114,sig:11,src:000071,time:3262554,execs:683856,op:havoc,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000115,sig:06,src:000071,time:3284383,execs:687160,op:havoc,rep:3');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000116,sig:06,src:000071,time:3289715,execs:687981,op:havoc,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000117,sig:11,src:000033,time:3357529,execs:699451,op:havoc,rep:1');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000118,sig:06,src:000033,time:3376124,execs:702991,op:havoc,rep:1');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000119,sig:11,src:000033,time:3412038,execs:709897,op:havoc,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000120,sig:06,src:000033,time:3412773,execs:710037,op:havoc,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000121,sig:06,src:001248,time:3561855,execs:741368,op:havoc,rep:2');
+----
+
+statement maybe
+FROM read_parquet('data/parquet-testing/fuzzer/20240923_parquet_files_fuzz_error/id:000122,sig:06,src:000058,time:3570682,execs:743211,op:havoc,rep:3');
+----
+
