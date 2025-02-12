@@ -217,7 +217,7 @@ jobs:
  linux-extensions-64-aarch64:
     # Builds extensions for linux_arm64
     name: Linux Extensions (aarch64)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     needs: linux-extensions-64
     strategy:
       matrix:
@@ -305,6 +305,7 @@ jobs:
         python scripts/generate_extensions_function.py
         pip install "black>=24"
         pip install cmake-format
+        pip install clang_format==11.0.1
         make format-fix
 
     - uses: actions/upload-artifact@v4
@@ -376,6 +377,10 @@ jobs:
       uses: KyleMayes/install-llvm-action@v1
       with:
         version: "10.0"
+
+    - name: Install
+      shell: bash
+      run: sudo apt-get update -y -qq && sudo apt-get install -y -qq libncurses5
 
     - name: Generate Amalgamation
       shell: bash

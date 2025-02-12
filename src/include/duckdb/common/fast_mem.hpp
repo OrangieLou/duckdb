@@ -10,6 +10,10 @@
 #include "duckdb/common/common.hpp"
 #include "duckdb/common/types.hpp"
 
+
+namespace duckdb {
+
+
 template <size_t SIZE>
 inline void MemcpyFixed(void *dest, const void *src) {
 	memcpy(dest, src, SIZE);
@@ -24,8 +28,6 @@ template <size_t SIZE>
 inline void MemsetFixed(void *ptr, int value) {
 	memset(ptr, value, SIZE);
 }
-
-namespace duckdb {
 
 //! This templated memcpy is significantly faster than std::memcpy,
 //! but only when you are calling memcpy with a const size in a loop.
