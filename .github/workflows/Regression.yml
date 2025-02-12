@@ -47,8 +47,6 @@ jobs:
     name: Regression Tests
     runs-on: ubuntu-latest
     env:
-      CC: gcc-10
-      CXX: g++-10
       GEN: ninja
       BUILD_BENCHMARK: 1
       BUILD_JEMALLOC: 1
@@ -184,8 +182,6 @@ jobs:
     name: Storage Size Regression Test
     runs-on: ubuntu-latest
     env:
-      CC: gcc-10
-      CXX: g++-10
       GEN: ninja
       CORE_EXTENSIONS: "tpch;tpcds"
 
@@ -264,8 +260,6 @@ jobs:
     name: Regression test binary size
     runs-on: ubuntu-latest
     env:
-      CC: gcc-10
-      CXX: g++-10
       GEN: ninja
       CORE_EXTENSIONS: "tpch;tpcds;json;parquet"
       EXTENSION_STATIC_BUILD: 1
@@ -306,8 +300,6 @@ jobs:
     name: Regression Test Join Order Plan Cost
     runs-on: ubuntu-latest
     env:
-      CC: gcc-10
-      CXX: g++-10
       GEN: ninja
       CORE_EXTENSIONS: "tpch;httpfs"
 
