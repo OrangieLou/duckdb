@@ -152,9 +152,10 @@ jobs:
           name: duckdb-static-lib-windows-mingw
           path: |
             static-lib-windows-mingw.zip
+
   bundle-linux-arm64-static-libs:
     name: Linux arm64 static libs
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
 
     steps:
       - uses: actions/checkout@v4
@@ -167,8 +168,6 @@ jobs:
         run: |
           docker run                                                             \
           -v.:/duckdb                                                            \
-          -e CC=aarch64-linux-gnu-gcc                                            \
-          -e CXX=aarch64-linux-gnu-g++                                           \
           -e CMAKE_BUILD_PARALLEL_LEVEL=2                                        \
           -e OVERRIDE_GIT_DESCRIBE=$OVERRIDE_GIT_DESCRIBE                        \
           -e EXTENSION_CONFIGS='/duckdb/.github/config/bundled_extensions.cmake' \
@@ -176,8 +175,8 @@ jobs:
           -e ENABLE_EXTENSION_AUTOINSTALL=1                                      \
           -e FORCE_WARN_UNUSED=1                                                 \
           -e DUCKDB_PLATFORM=linux_arm64                                         \
-          ubuntu:18.04                                                           \
-          bash -c "/duckdb/scripts/setup_ubuntu1804.sh && git config --global --add safe.directory /duckdb && make bundle-library -C /duckdb"
+          quay.io/pypa/manylinux2014_aarch64                                     \
+          bash -c "yum install -y perl-IPC-Cmd && git config --global --add safe.directory $PWD && make bundle-library -C $PWD"
       - name: Deploy
         shell: bash
         env:
@@ -192,6 +191,7 @@ jobs:
           name: duckdb-static-lib-linux-arm64
           path: |
             static-lib-linux-arm64.zip
+
   bundle-linux-amd64-static-libs:
     name: Linux amd64 static libs
     runs-on: ubuntu-latest
