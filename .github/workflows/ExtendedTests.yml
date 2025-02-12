@@ -185,7 +185,7 @@ jobs:
 
   regression-clang-benchmark-runner:
      name: Benchmark runner clang vs gcc
-     runs-on: ubuntu-latest
+     runs-on: ubuntu-20:04
      env:
        CC: gcc
        CXX: g++

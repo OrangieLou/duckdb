@@ -68,8 +68,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: linux-memory-leaks
     env:
-      CC: gcc-10
-      CXX: g++-10
       GEN: ninja
       BUILD_JEMALLOC: 1
       CORE_EXTENSIONS: "icu;tpch;tpcds;fts;json;inet"
@@ -336,8 +334,6 @@ jobs:
      runs-on: ubuntu-latest
      needs: linux-memory-leaks
      env:
-       CC: gcc-10
-       CXX: g++-10
        GEN: ninja
 
      steps:
@@ -368,8 +364,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: linux-memory-leaks
     env:
-      CC: gcc-10
-      CXX: g++-10
       GEN: ninja
 
     steps:
@@ -454,8 +448,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: linux-memory-leaks
     env:
-      CC: gcc-10
-      CXX: g++-10
       GEN: ninja
       CORE_EXTENSIONS: "parquet;json;tpch;tpcds;httpfs"
       DEBUG_STACKTRACE: 1
@@ -505,8 +497,6 @@ jobs:
           - vector_type: "nested_shuffle"
             test_parameter: '' # skip running all tests here because it is too slow
     env:
-      CC: gcc-10
-      CXX: g++-10
       GEN: ninja
       CORE_EXTENSIONS: "icu;parquet;tpch;tpcds;fts;json;inet"
       VERIFY_VECTOR: ${{ matrix.vector_type }}
@@ -696,8 +686,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: linux-memory-leaks
     env:
-      CC: gcc-10
-      CXX: g++-10
       GEN: ninja
       STANDARD_VECTOR_SIZE: 2
 

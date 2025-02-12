@@ -51,8 +51,6 @@ jobs:
             start_offset: "--start-offset 2000"
             end_offset: ""
     env:
-      CC: gcc-10
-      CXX: g++-10
       TREAT_WARNINGS_AS_ERRORS: 1
       GEN: ninja
       CRASH_ON_ASSERT: 1
@@ -133,8 +131,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       OVERRIDE_GIT_DESCRIBE: ${{needs.linux-debug.outputs.git_describe}}
-      CC: gcc-10
-      CXX: g++-10
       GEN: ninja
       BUILD_JEMALLOC: 1
       CORE_EXTENSIONS: "icu;parquet;tpch;tpcds;json"
@@ -172,8 +168,6 @@ jobs:
     needs: force-storage
     env:
       OVERRIDE_GIT_DESCRIBE: ${{needs.linux-debug.outputs.git_describe}}
-      CC: gcc-10
-      CXX: g++-10
       GEN: ninja
       BUILD_JEMALLOC: 1
       CORE_EXTENSIONS: "icu;parquet;tpch;tpcds;json"
@@ -210,8 +204,6 @@ jobs:
     needs: force-storage
     env:
       OVERRIDE_GIT_DESCRIBE: ${{needs.linux-debug.outputs.git_describe}}
-      CC: gcc-10
-      CXX: g++-10
       DISABLE_SANITIZER: 1
       BUILD_JEMALLOC: 1
       GEN: ninja
