@@ -10,9 +10,7 @@
 #include "duckdb/common/common.hpp"
 #include "duckdb/common/types.hpp"
 
-
 namespace duckdb {
-
 
 template <size_t SIZE>
 inline void MemcpyFixed(void *dest, const void *src) {
