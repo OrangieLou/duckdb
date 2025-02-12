@@ -166,8 +166,9 @@ jobs:
       - name: Build
         shell: bash
         run: |
+          export PWD=`pwd`
           docker run                                                             \
-          -v.:/duckdb                                                            \
+          -v$PWD:$PWD                                                            \
           -e CMAKE_BUILD_PARALLEL_LEVEL=2                                        \
           -e OVERRIDE_GIT_DESCRIBE=$OVERRIDE_GIT_DESCRIBE                        \
           -e EXTENSION_CONFIGS='/duckdb/.github/config/bundled_extensions.cmake' \
