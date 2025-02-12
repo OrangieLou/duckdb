@@ -50,7 +50,7 @@ jobs:
 
       - name: Install
         shell: bash
-        run: sudo apt-get update -y -qq && sudo apt-get install -y -qq ninja-build clang-format-11 && sudo pip3 install cmake-format black cxxheaderparser pcpp
+        run: sudo apt-get update -y -qq && sudo apt-get install -y -qq ninja-build && sudo pip3 install cmake-format black cxxheaderparser pcpp clang-format==11.1.0.2
 
       - name: List Installed Packages
         shell: bash
